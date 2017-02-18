@@ -1,12 +1,41 @@
-path {
-  fill: none;
-  stroke: #24FFA7;
-  stroke-width: 3px;
-  stroke-linejoin: round;
-  opacity: .5; }
+html {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: block; }
 
-circle {
-  fill: white;
-  opacity: .5; }
+body {
+  height: 300px;
+  margin: 0 auto;
+  width: 750px; }
 
-/*# sourceMappingURL=main.css.map */
+.bubbles {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block; }
+  .bubbles div {
+    width: 33%;
+    height: 100%;
+    float: left; }
+  .bubbles circle {
+    stroke-width: .5px;
+    stroke: #cecece; }
+  .bubbles .bub-buttons {
+    background: yellowgreen; }
+    .bubbles .bub-buttons button {
+      width: 50%;
+      margin-top: 15px;
+      padding: 15px; }
+  .bubbles .bub-data {
+    background: lightcoral;
+    overflow: auto; }
+    .bubbles .bub-data p {
+      font-family: "Lucida Console", Monaco, monospace;
+      font-size: 12px;
+      margin: 5px 0 5px 10px;
+      float: left; }
+  @media screen and (max-width: 750px) {
+    .bubbles div {
+      width: 100%;
+      float: none; } }
