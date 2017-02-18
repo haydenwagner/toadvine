@@ -1,0 +1,29 @@
+html {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: block; }
+
+body {
+  height: 800px;
+  margin: 0 auto;
+  width: 1000px; }
+
+path {
+  fill: none;
+  stroke-width: 3px;
+  stroke-linejoin: round; }
+  path.subscribers {
+    stroke: #8bc34a;
+    opacity: .5; }
+  path.gridline {
+    stroke: #AAA;
+    opacity: .25;
+    stroke-width: 2px; }
+
+circle.pubSites {
+  stroke: #CCC;
+  stroke-width: 2px; }
+
+circle.employees {
+  opacity: .5; }
