@@ -22,9 +22,9 @@ transition();
 function transition() {
     circle.transition()
         .duration(10000)
-        .ease('linear')
+        .ease(d3.easeLinear)
         .attrTween("transform", translateAlong(path.node()))
-        .each("end", transition);
+        .on('end',transition);
 }
 
 // Returns an attrTween for translating along the specified path element.
