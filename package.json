@@ -1,0 +1,26 @@
+{
+  "name": "toadvine",
+  "version": "1.0.0",
+  "description": "Branches of visualizations and smaller code projects",
+  "main": "index.html",
+  "dependencies": {},
+  "devDependencies": {
+    "inline-source-cli": "^1.2.0",
+    "node-sass": "^4.5.0"
+  },
+  "scripts": {
+    "tvscss": "node-sass styles.scss styles.css",
+    "tvscssw": "node-sass styles.scss styles.css --watch",
+    "tvgist": "cp -R gist-template/ gist/ && inline-source --compress false --root ./ index.html gist/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/haydenwagner/toadvine.git"
+  },
+  "author": "Hayden Wagner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haydenwagner/toadvine/issues"
+  },
+  "homepage": "https://github.com/haydenwagner/toadvine#readme"
+}
