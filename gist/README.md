@@ -1,1 +1,0 @@
-This is a demo of d3's enter/update/exit patterns
