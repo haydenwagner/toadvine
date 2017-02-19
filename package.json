@@ -11,7 +11,7 @@
   "scripts": {
     "tvscss": "node-sass styles.scss styles.css",
     "tvscssw": "node-sass styles.scss styles.css --watch",
-    "tvgist": "npm run tvscss && inline-source --compress false --root ./ index.html gist/index.html"
+    "tvgist": "cp -R gist-template/ gist/ && inline-source --compress false --root ./ index.html gist/index.html"
   },
   "repository": {
     "type": "git",
