@@ -1,32 +1,11 @@
 <!--- Provide a general summary of the issue in the Title above -->
 
-## Context
-<!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug -->
-
-## Expected Behavior
-<!--- Tell us what should happen -->
-
-## Actual Behavior
-<!--- Tell us what happens instead -->
-
-## Possible Fix
-<!--- Not obligatory, but suggest a fix or reason for the bug -->
-
-## Steps to Reproduce
-<!--- Provide a link to a live example, or an unambiguous set of steps to -->
-<!--- reproduce this bug include code to reproduce, if relevant -->
-1.
-2.
-3.
-4.
+## Detailed Description
+<!--- Provide a detailed description of the change or addition you are proposing -->
 
 ## Context
-<!--- How has this bug affected you? What were you trying to accomplish? -->
+<!--- Why is this change important to you? How would you use it? -->
+<!--- How can it benefit other users? -->
 
-## Your Environment
-<!--- Include as many relevant details about the environment you experienced the bug in -->
-* Version used:
-* Environment name and version (e.g. PHP 5.4 on nginx 1.9.1):
-* Server type and version:
-* Operating System and version:
-* Link to your project:
+## Possible Implementation
+<!--- Not obligatory, but suggest an idea for implementing addition or change -->
