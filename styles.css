@@ -5,21 +5,25 @@ html {
   display: block; }
 
 body {
-  height: 800px;
-  margin: 0 auto;
-  width: 1000px; }
+  margin: 0 auto; }
+  body #svgContainer {
+    height: 800px;
+    margin: 0 auto;
+    width: 960px; }
+  body #actionContainer {
+    text-align: center; }
+  body #displayYear {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: sans-serif; }
 
 path {
   fill: none;
   stroke-width: 3px;
   stroke-linejoin: round; }
-  path.subscribers {
+  path.customers {
     stroke: #8bc34a;
     opacity: .5; }
-  path.gridline {
-    stroke: #AAA;
-    opacity: .25;
-    stroke-width: 2px; }
 
 circle.pubSites {
   stroke: #CCC;

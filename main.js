@@ -2,37 +2,37 @@
 //data
 var sData = [
     {
-        year: 2012,
-        subscribers: 500,
-        publications: ['InduD','ConsD'],
+        year: 2002,
+        customers: 500,
+        products: ['company name','product 1'],
         employees: ['m','m','m'],
         office: 'Grocery Store'
     },
     {
-        year: 2013,
-        subscribers: 7500,
-        publications: ['InduD','ConsD', 'UtilD', 'CIOD'],
+        year: 2003,
+        customers: 7500,
+        products: ['company name','product 1', 'product 2', 'product 3'],
         employees: ['m','m','m','f','f','m'],
         office: 'Grocery Store'
     },
     {
-        year: 2014,
-        subscribers: 60000,
-        publications: ['InduD','ConsD', 'UtilD', 'CIOD', 'EducD', 'HealD', 'MarkD'],
+        year: 2004,
+        customers: 60000,
+        products: ['company name','product 1', 'product 2', 'product 3', 'product 4', 'product 5', 'product 6'],
         employees: ['m','m','m','f','f','m','f','f','m','f','m','f','m','m','f','f','m','m','f'],
         office: 'Grocery Store'
     },
     {
-        year: 2015,
-        subscribers: 350000,
-        publications: ['InduD','ConsD', 'UtilD', 'CIOD', 'EducD', 'HealD', 'MarkD', 'WastD', 'BiopD'],
+        year: 2005,
+        customers: 350000,
+        products: ['company name','product 1', 'product 2', 'product 3', 'product 4', 'product 5', 'product 6', 'product 7', 'product 8'],
         employees: ['m','m','m','f','f','m','f','f','m','f','m','f','m','m','f','f','m','m','f','m','m','m','f','f','m','f','f','m','f','m','f','m','m','f'],
         office: 'Grocery Store'
     },
     {
-        year: 2016,
-        subscribers: 900000,
-        publications: ['InduD','ConsD', 'UtilD', 'CIOD', 'EducD', 'HealD', 'MarkD', 'WastD', 'BiopD', 'FoodD', 'RetaD', 'HRD'],
+        year: 2006,
+        customers: 900000,
+        products: ['company name','product 1', 'product 2', 'product 3', 'product 4', 'product 5', 'product 6', 'product 7', 'product 8', 'product 9', 'product 10'],
         employees: ['m','m','m','f','f','m','f','f','m','f','m','f','m','m','f','f','m','m','f','m','m','m','f','f','m','f','f','m','f','m','f','m','m','f','m','m','m','f','f','m','f','f','m','f','m','f','m','m','f'],
         office: 'Grocery Store'
     }
@@ -41,18 +41,21 @@ var sData = [
 
 var vData = [
     {
-        year: 2012,
-        subscribers: 500,
-        publications: ['InduD','ConsD'],
+        year: 2002,
+        customers: 500,
+        products: ['company name','product 1'],
         employees: ['m','m','m'],
         office: 'Grocery Store'
     },
 ];
 //end data
 
+var firstYear = _.first(sData).year;
+var lastYear = _.last(sData).year;
 
 
-//classes (should be able to use in dive-vis repo
+
+//classes (should be able to use in other stuff...test)
 var FullSvg = (function(){
     var exports = {};
     exports.prototype = {};
@@ -82,9 +85,10 @@ var FullSvg = (function(){
 
     exports.create = function(container){
         var ret = Object.create(exports.prototype);
+        var d3Container = d3.select(container);
 
-        ret.element = d3.select(container).append('svg');
-        ret.container = ret.element.node().parentNode;
+        ret.element = d3Container.append('svg');
+        ret.container = d3Container.node();
         console.log(ret.container);
         console.log(ret.container.clientWidth);
 
@@ -99,22 +103,36 @@ var FullSvg = (function(){
 
 
 
-var svg = FullSvg.create('body');
+var svg = FullSvg.create('#svgContainer');
 svg.element.style('background', '#EEE');
 console.log(svg);
 
-d3.select('body').append('button')
+var actionContainer = d3.select('body').append('div')
+    .attr('id', 'actionContainer');
+
+var decreaseButton = actionContainer.append('button')
+    .html('Decrease Year')
+    .attr('disabled', true)
+    .on('click', decreaseYear);
+
+var increaseButton = actionContainer.append('button')
     .html('Advance Year')
     .on('click', increaseYear);
 
+var displayYear = actionContainer.append('p')
+    .attr('id','displayYear')
+    .html(firstYear.toString());
+
+
+
 //make line scales
 var lineScaleX = d3.scaleLinear()
-    .domain([2012, 2016])
+    .domain([firstYear, lastYear])
     .range([svg.drawPadding, svg.drawDimensions[0]]);
 
 var lineExtraSpaceTop = 200;
 var lineScaleY = d3.scaleLinear()
-    .domain([0, d3.max(sData, function(d){return d.subscribers;})])
+    .domain([0, d3.max(sData, function(d){return d.customers;})])
     .range([svg.drawDimensions[1], svg.drawPadding + lineExtraSpaceTop]);
 
 
@@ -143,10 +161,10 @@ var employeeScaleVertical = d3.scaleLinear()
     .range([svg.drawPadding + columnEdgeAdjustmentVert, svg.drawDimensions[1] - employeeVerticalAdjustment]);
 
 
-// console.log(sData[0].subscribers);
-// console.log(sData[1].subscribers);
-// console.log(lineScaleY(sData[0].subscribers))
-// console.log(lineScaleY(sData[1].subscribers))
+// console.log(sData[0].customers);
+// console.log(sData[1].customers);
+// console.log(lineScaleY(sData[0].customers))
+// console.log(lineScaleY(sData[1].customers))
 
 //TODO, delete this, only temp grid to align elements
 var tempGridLines = svg.element.selectAll('grid lines')
@@ -165,7 +183,7 @@ var tempGridLines = svg.element.selectAll('grid lines')
 //make line function
 var lineFunc = d3.line()
     .x(function(d){return lineScaleX(d.year);})
-    .y(function(d){return lineScaleY(d.subscribers);})
+    .y(function(d){return lineScaleY(d.customers);})
 //.curve(d3.curveBasis);
 
 
@@ -176,15 +194,15 @@ var gLine = svg.element.append('g')
 
 var line = gLine.append('path')
     .datum(vData)
-    .attr('class', 'subscribers')
+    .attr('class', 'customers')
     .attr('d', lineFunc);
 
 //make g for publication sites and add starting industry dive circle
-var gPubSites = svg.element.append('g')
+var gProducts = svg.element.append('g')
     .attr('class','pubSites');
 
-var pubSiteCircles = gPubSites.selectAll('circle')
-    .data(_.last(vData).publications)
+var pubSiteCircles = gProducts.selectAll('circle')
+    .data(_.last(vData).products)
     .enter().append('circle')
     .attr('class', 'pubSites')
     .attr('cx', columnScale(0))
@@ -206,12 +224,12 @@ var pubSiteCircles = gPubSites.selectAll('circle')
     })
     .attr('fill', function(d,i){
         if(i === 0){
-            return '#dc4438';
+            return '#ff5722';
         }
         else {
             return '#FFF';
         }
-    });
+    }).append('title').html(function(d){return d;});
 
 
 //make g for employees and then add starting employee svgs
@@ -224,6 +242,7 @@ var employeeIcons = gEmployees.selectAll('circle')
     .enter().append('circle')
     .attr('class', 'employees')
     .attr('cx', function(d,i){
+        console.log(d);
         return columnScale(1) + employeeScaleHorizontal(i%5);
     })
     .attr('cy', function(d,i){
@@ -238,7 +257,7 @@ var employeeIcons = gEmployees.selectAll('circle')
         else {
             return 'pink';
         }
-    });
+    }).append('title').html(function(d,i){return 'employee ' + i;});
 
 
 
@@ -255,8 +274,49 @@ function increaseYear(){
     var newData = _.find(sData, function(x){return x.year == newYear;});
     vData.push(newData);
     updateVis();
+
+    if(newYear === lastYear){
+        disableButton(increaseButton);
+    }
+
+    if(newYear === firstYear + 1){
+        enableButton(decreaseButton);
+    }
+
+    displayYear.html(newYear);
 }
 
+function decreaseYear(){
+    //currYear not very good name
+    var curYear = _.last(getCurrentYear());
+
+    _.remove(vData, function(x){
+       return x.year === curYear;
+    });
+
+    //var newData = _.find(sData, function(x){return x.year == newYear;});
+
+    //vData.push(newData);
+    updateVis();
+
+    if(curYear === lastYear){
+        enableButton(increaseButton);
+    }
+
+    //this is shitty way to check //currYear not very good name
+    if(curYear === firstYear + 1){
+        disableButton(decreaseButton);
+    }
+
+    displayYear.html(curYear -1);
+}
+
+function enableButton(button){
+    button.attr('disabled', null);
+}
+function disableButton(button){
+    button.attr('disabled', true);
+}
 
 
 //calls
@@ -270,8 +330,8 @@ function updateVis(){
     line.datum(vData)
         .attr('d', lineFunc);
 
-    gPubSites.selectAll('circle')
-        .data(_.last(vData).publications)
+    gProducts.selectAll('circle')
+        .data(_.last(vData).products)
         .enter().append('circle')
         .attr('class', 'pubSites')
         .attr('cx', columnScale(0))
@@ -284,6 +344,25 @@ function updateVis(){
             return i * 75;
         })
         .style('opacity', 1);
+
+    var leavingSizeProd = gProducts.selectAll('circle')
+        .data(_.last(vData).products)
+        .exit().size();
+
+    gProducts.selectAll('circle')
+        .data(_.last(vData).products)
+        .exit().remove();
+        // .transition()
+        // .duration(function(d,i){
+        //     var time = leavingSizeProd * 75;
+        //     leavingSizeProd--;
+        //     return time;
+        // })
+        // .style('opacity', 0)
+        // .on('end', function(){
+        //     d3.select(this).remove();
+        // });
+
 
     var existingEmployees = gEmployees.selectAll('circle').size();
 
@@ -313,6 +392,24 @@ function updateVis(){
             return (i - existingEmployees) * 100;
         })
         .style('opacity', .5);
+
+    var leavingSizeEmp = gEmployees.selectAll('circle')
+        .data(_.last(vData).employees)
+        .exit().size();
+
+    gEmployees.selectAll('circle')
+        .data(_.last(vData).employees)
+        .exit().remove();
+        // .transition()
+        // .duration(function(d,i){
+        //     var time = leavingSizeEmp * 75;
+        //     leavingSizeEmp--;
+        //     return time;
+        // })
+        // .style('opacity', 0)
+        // .on('end', function(){
+        //     d3.select(this).remove();
+        // });
 }
 
 function makeTable(container, coordinates){

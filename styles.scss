@@ -6,9 +6,23 @@ html {
 }
 
 body {
-  height: 800px;
   margin: 0 auto;
-  width: 1000px;
+
+  #svgContainer{
+    height: 800px;
+    margin: 0 auto;
+    width: 960px;
+  }
+  
+  #actionContainer{
+    text-align: center;
+  }
+
+  #displayYear{
+    font-size: 24px;
+    font-weight: bold;
+    font-family: sans-serif;
+  }
 }
 
 path {
@@ -16,15 +30,15 @@ path {
   stroke-width: 3px;
   stroke-linejoin: round;
 
-  &.subscribers{
+  &.customers{
     stroke: #8bc34a;
     opacity: .5;
   }
 
   &.gridline {
-    stroke: #AAA;
-    opacity: .25;
-    stroke-width: 2px;
+    //stroke: #AAA;
+    //opacity: .25;
+    //stroke-width: 2px;
   }
 }
 
