@@ -9,4 +9,8 @@ path {
 circle {
   fill: white;
   opacity: .5;
+
+  &.train{
+    opacity: .9;
+  }
 }

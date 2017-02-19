@@ -3,6 +3,7 @@ var startingPoint = [956.333,182.334];
 var path = d3.select('#Layer_2 path');
 
 var circle = svg.append("circle")
+    .attr("class","train")
     .attr("r", 6)
     .attr("transform", "translate(" + startingPoint + ")");
 
