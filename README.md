@@ -2,7 +2,7 @@
 
 ![toadvine repo][image]
 
-toadvine consists of different branches of visualizations and smaller (not repo worthy) code projects.
+**toadvine consists of different branches of visualizations and smaller (not repo worthy) code projects.**
 
 The master branch contains a minimal project template (HTML page with linked CSS and JS files) which forms the basis for each new project.
 
