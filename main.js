@@ -17,16 +17,17 @@ var g = svg.append('g')
 
 function init(){
     //add button listeners
-    d3.select('#enter').on('click', addPoint);
-    d3.select('#update').on('click', updatePoint);
-    d3.select('#exit').on('click', removePoint);
+    d3.select('#enter').on('click', enterData);
+    d3.select('#update').on('click', updateData);
+    d3.select('#exit').on('click', exitData);
 
     //make two random points and add to data
     mainData.push(getRandomPoint(), getRandomPoint());
 
     //call enter vis and enter mainData
-    enterVis(mainData);
-    enterData(mainData);
+    //enterVis(mainData);
+    //enterData(mainData);
+    updateDoodley();
 }
 
 init();
@@ -38,63 +39,131 @@ init();
 ////
 //functions that get attached to button listeners
 
-function addPoint(){
-    mainData.push(getRandomPoint());
-    enterVis(mainData);
-    enterData(mainData);
-}
-
-function updatePoint(){
-    var changeIndex = changeRandomDataPoint();
-    enterVis(mainData, changeIndex);
-    enterData(mainData, changeIndex);
-}
-
-function removePoint(){
-    changeRandomDataPoint(true);
-    enterVis(mainData);
-    enterData(mainData);
-}
+// function addPoint(){
+//     mainData.push(getRandomPoint());
+//     enterVis(mainData);
+//     enterData(mainData);
+// }
+//
+// function updatePoint(){
+//     var changeIndex = changeRandomDataPoint();
+//     enterVis(mainData, changeIndex);
+//     enterData(mainData, changeIndex);
+// }
+//
+// function removePoint(){
+//     changeRandomDataPoint(true);
+//     enterVis(mainData);
+//     enterData(mainData);
+// }
 
 
 //////////////
 
+function enterData(){
+    mainData.push(getRandomPoint());
+    updateDoodley();
+}
 
+function updateData(){
+    changeRandomDataPoint(false);
+    updateDom();
+}
 
-function enterData(data, updatedIndex){
-    var text = dataDiv.selectAll('p');
+function exitData(){
+    updateDoodley( changeRandomDataPoint(true) );
+}
 
-    text.data(data)
+function updateDom(){
+    var data = mainData;
+    var textSelection = dataDiv.selectAll('p').data(data);
+
+    textSelection
         .text(function(d){return handleText(d);})
-        .filter(function(d,i){
-            return i === updatedIndex;
-        })
-        .interrupt()
-        .style('color', 'purple')
-        .transition()
-        .delay(500)
-        .duration(250)
-        .style('color', 'black');
+}
 
-    text.data(data)
-        .enter().append('p')
-        .text(function(d){return handleText(d);})
-        .style('color', 'green')
-        .transition()
-        .delay(500)
-        .duration(250)
-        .style('color', 'black');
+function updateDoodley(removeIndex){
+    var data = mainData;
 
-    text.data(data).exit().interrupt()
+    var textSelection = dataDiv.selectAll('p').data(data),
+        circleSelection = g.selectAll('circle:not(.exiting)').data(data);
+
+    textSelection.filter(function(d,i) {
+            return i === removeIndex;
+        }).interrupt()
         .style('color', 'red')
         .transition()
         .duration(350)
         .on('end', function () {
-            d3.select(this)
-                .remove();
+             d3.select(this).remove();
         });
 
+
+    textSelection.enter()
+        .append('p')
+        .text(function(d){return handleText(d);})
+
+
+
+
+
+
+/*
+    circleSelection.attr('cx', function(d){return d[0];})
+        .attr('cy', function(d){ return d[1];});
+
+    circleSelection.enter()
+        .append('circle')
+        //.attr('cx', -10)
+        .attr('cy', function(d){ return d[1];})
+        .attr('r', 5)
+        //.attr('fill', 'green')
+        //.transition()
+        //.duration(500)
+        .attr('cx', function(d){return d[0];});
+
+    circleSelection.exit()
+        .remove();
+
+*/
 }
+
+
+
+// function enterData(data, updatedIndex){
+//     var text = dataDiv.selectAll('p');
+//
+//     text.data(data)
+//         .text(function(d){return handleText(d);})
+//         .filter(function(d,i){
+//             return i === updatedIndex;
+//         })
+//         .interrupt()
+//         .style('color', 'purple')
+//         .transition()
+//         .delay(500)
+//         .duration(250)
+//         .style('color', 'black');
+//
+//     text.data(data)
+//         .enter().append('p')
+//         .text(function(d){return handleText(d);})
+//         .style('color', 'green')
+//         .transition()
+//         .delay(500)
+//         .duration(250)
+//         .style('color', 'black');
+//
+//     text.data(data).exit().interrupt()
+//         .style('color', 'red')
+//         .transition()
+//         .duration(350)
+//         .on('end', function () {
+//             d3.select(this)
+//                 .remove();
+//         });
+//
+// }
 
 function enterVis(data, updatedIndex){
     var points = g.selectAll('circle:not(.exiting)');
