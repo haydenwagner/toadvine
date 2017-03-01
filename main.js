@@ -27,7 +27,7 @@ function init(){
     //call enter vis and enter mainData
     //enterVis(mainData);
     //enterData(mainData);
-    updateDoodley();
+    updateOrEnter();
 }
 
 init();
@@ -62,70 +62,127 @@ init();
 
 function enterData(){
     mainData.push(getRandomPoint());
-    updateDoodley();
+    updateOrEnter();
 }
 
 function updateData(){
-    changeRandomDataPoint(false);
-    updateDom();
+
+    updateOrEnter(changeRandomDataPoint(false));
 }
 
 function exitData(){
-    updateDoodley( changeRandomDataPoint(true) );
+    exit( changeRandomDataPoint(true) );
 }
 
 function updateDom(){
-    var data = mainData;
-    var textSelection = dataDiv.selectAll('p').data(data);
-
-    textSelection
-        .text(function(d){return handleText(d);})
+    // var data = mainData;
+    // var textSelection = dataDiv.selectAll('p').data(data);
+    //
+    // textSelection
+    //     .text(function(d){return handleText(d);})
 }
 
-function updateDoodley(removeIndex){
+function exit(removedIndex){
     var data = mainData;
-
-    var textSelection = dataDiv.selectAll('p').data(data),
+    var textSelection = dataDiv.selectAll('p:not(.exiting)').data(data),
         circleSelection = g.selectAll('circle:not(.exiting)').data(data);
 
-    textSelection.filter(function(d,i) {
-            return i === removeIndex;
-        }).interrupt()
-        .style('color', 'red')
+
+    mainData.splice(removedIndex, 1);
+
+
+    //text exit
+    textSelection.filter(function(d,i){
+            console.log(i)
+            console.log(removedIndex);
+            return i === removedIndex;
+        })
+        .interrupt()
+        .classed("exiting", true)
+        .style('color', '#c9302c')
         .transition()
         .duration(350)
         .on('end', function () {
-             d3.select(this).remove();
+            d3.select(this).remove();
         });
 
+    //circle exit
+    circleSelection.filter(function(d,i){
+            return i === removedIndex;
+        })
+        .interrupt()
+        .classed("exiting", true)
+        .attr('fill', '#d9534f')
+        .transition()
+        .duration(500)
+        .attr('cx', parseFloat(containerWidth) + 30)
+        .on('end', function () {
+            d3.select(this).remove();
+        });
+}
 
+function updateOrEnter(updatedIndex){
+    var data = mainData;
+
+    var textSelection = dataDiv.selectAll('p:not(.exiting)').data(data),
+        circleSelection = g.selectAll('circle:not(.exiting)').data(data);
+
+    //text update
+    textSelection
+        .text(function(d){return handleText(d);})
+        .filter(function(d,i){
+            return i === updatedIndex;
+        })
+        .interrupt()
+        .style('color', '#31b0d5')
+        .transition()
+        .delay(500)
+        .duration(250)
+        .style('color', 'black');
+
+    //text enter
     textSelection.enter()
         .append('p')
         .text(function(d){return handleText(d);})
+        .style('color', '#449d44')
+        .transition()
+        .delay(500)
+        .duration(250)
+        .style('color', 'black');
 
+    //circle update
+    circleSelection
+        .filter(function(d,i){
+            return i === updatedIndex;
+        })
+        .interrupt()
+        .attr('fill', '#5bc0de')
+        .transition()
+        .duration(500)
+        .attr('cx', function(d){return d[0];})
+        .attr('cy', function(d){ return d[1];})
+        .on('end', function () {
+            d3.select(this)
+                .transition()
+                .duration(250)
+                .attr('fill','black');
+        });
 
-
-
-
-
-/*
-    circleSelection.attr('cx', function(d){return d[0];})
-        .attr('cy', function(d){ return d[1];});
-
+    //circle enter
     circleSelection.enter()
         .append('circle')
-        //.attr('cx', -10)
+        .attr('cx', -10)
         .attr('cy', function(d){ return d[1];})
         .attr('r', 5)
-        //.attr('fill', 'green')
-        //.transition()
-        //.duration(500)
-        .attr('cx', function(d){return d[0];});
-
-    circleSelection.exit()
-        .remove();
-
-*/
+        .attr('fill', '#5cb85c')
+        .transition()
+        .duration(500)
+        .attr('cx', function(d){return d[0];})
+        .on('end', function(){
+            d3.select(this).transition()
+                .duration(250)
+                .attr('fill', 'black');
+        });
 }
 
 
@@ -250,7 +307,8 @@ function changeRandomDataPoint(deleteOpt){
 
     //for deleting points instead of updating them
     if(deleteOpt){
-        mainData.splice(changeIndex, 1);
+        //mainData.splice(changeIndex, 1);
+        console.log(changeIndex);
     }
     else {
         mainData[changeIndex] = getRandomPoint();

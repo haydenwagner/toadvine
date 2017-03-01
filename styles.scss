@@ -15,8 +15,9 @@ body {
   position: relative;
   display: block;
 
-  div {
-    width: 33%;
+  div.bub-data,
+  div.bub-vis{
+    width: 50%;
     height: 100%;
     float: left; }
 
@@ -25,17 +26,83 @@ body {
     stroke: #cecece; }
 
   .bub-buttons {
-    background: yellowgreen;
+    //background: yellowgreen;
+    text-align: center;
 
-    button {
-      width: 50%;
-      margin-top: 15px;
-      padding: 15px; }
+    //button {
+    //  width: 25%;
+    //  display: inline-block;
+    //  margin-top: 15px;
+    //  padding: 15px;
+    //  -webkit-border-radius:4px;
+    //  -moz-border-radius:4px;
+    //  border-radius:4px;
+    //}
 
+    //boostrap styles and colors
+    .btn{
+      display: inline-block;
+      padding: 6px 12px;
+      margin-top: 5px;
+      margin-bottom: 0;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.42857143;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      -ms-touch-action: manipulation;
+      touch-action: manipulation;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      background-image: none;
+      border: 1px solid transparent;
+      border-radius: 4px;
+
+      &-enter{
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+        
+        &:hover{
+          color: #fff;
+          background-color: #449d44;
+          border-color: #398439;
+        }
+      }
+
+      &-exit{
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+
+        &:hover{
+          color: #fff;
+          background-color: #c9302c;
+          border-color: #ac2925;
+        }
+      }
+
+      &-update{
+        color: #fff;
+        background-color: #5bc0de;
+        border-color: #46b8da;
+
+        &:hover{
+          color: #fff;
+          background-color: #31b0d5;
+          border-color: #269abc;
+        }
+      }
+
+    }
   }
 
   .bub-data {
-    background: lightcoral;
+    background: #c5c5c5;
     overflow: auto;
 
     p {
