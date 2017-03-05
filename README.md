@@ -1,6 +1,6 @@
 # toadvine_enter-update-exit
 
-<a href="http://bl.ocks.org/haydenwagner/31cdd6c475f1d5d9eef03a7dcf843e3b" target="_blank">Demo bl.ocks link</a>
+<a href="http://bl.ocks.org/haydenwagner/a85fbb54b4ff60259678d9a1d171d030" target="_blank">Demo bl.ocks link</a>
 
 ##enter-update-exit
 The data join concept is central to D3&mdash;if you have never heard of it before you should read [this post](https://bost.ocks.org/mike/join/) by D3's creator, Mike Bostock.
